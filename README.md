@@ -1,6 +1,6 @@
 # Features Package
 
-A pluggable feature system built on top of Laravel Pennant.
+A pluggable feature system built on top of [Laravel Pennant](https://github.com/laravel/pennant).
 
 ## Installation
 
@@ -24,7 +24,7 @@ This will create a `config/features.php` file where you can configure your featu
 
 ### Pennant Configuration
 
-This package is designed to work with Laravel Pennant's default driver set to `'array'`. This allows features to be defined as stateless defaults that can then be overridden on a per-scope basis using the database driver.
+This package is designed to work with [Laravel Pennant's](https://github.com/laravel/pennant) default driver set to `'array'`. This allows features to be defined as stateless defaults that can then be overridden on a per-scope basis using the database driver.
 
 In your `config/pennant.php`, set the default driver to `'array'`:
 
@@ -109,6 +109,10 @@ This is useful when you want to:
 - Remove overridden feature values and revert to defaults
 - Clean up test data
 - Reset features during development
+
+## Credits
+
+This package is built on top of [Laravel Pennant](https://github.com/laravel/pennant), Laravel's official feature flag package.
 
 ## License
 
