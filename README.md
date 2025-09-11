@@ -1,5 +1,9 @@
 # Features Package
 
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/inmanturbo/features.svg?style=flat-square)](https://packagist.org/packages/inmanturbo/features)
+[![Total Downloads](https://img.shields.io/packagist/dt/inmanturbo/features.svg?style=flat-square)](https://packagist.org/packages/inmanturbo/features)
+[![License](https://img.shields.io/packagist/l/inmanturbo/features.svg?style=flat-square)](https://packagist.org/packages/inmanturbo/features)
+
 A pluggable feature system built on top of [Laravel Pennant](https://github.com/laravel/pennant).
 
 ## Installation
