@@ -1,0 +1,31 @@
+{
+    "name": "inmanturbo/features",
+    "description": "Pluggable feature system built on top of laravel/pennant",
+    "type": "library",
+    "require": {
+        "laravel/pennant": "1.x-dev"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Inmanturbo\\Features\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "inmanturbo"
+        }
+    ],
+    "minimum-stability": "dev",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Inmanturbo\\Features\\FeaturesServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "orchestra/testbench": "10.x-dev",
+        "laravel/pint": "dev-main"
+    }
+}
