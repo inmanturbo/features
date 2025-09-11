@@ -31,19 +31,13 @@ This will create:
 
 ### Defined-Database Driver
 
-This package uses a custom `defined-database` driver that only stores and retrieves features that have been explicitly defined. This prevents undefined features from being stored in the database and ensures better data integrity.
+This package uses a custom `defined-database` driver that only retrieves features that have been explicitly defined. This allows removing features without losing any data, fetures can be redefined later with their data still intact.
 
 The published Pennant config sets this as the default driver:
 
 ```php
 'default' => env('PENNANT_DRIVER', 'defined-database'),
 ```
-
-Benefits of the `defined-database` driver:
-
-- **Defined features only**: Only explicitly defined features are stored in the database
-- **Data integrity**: Prevents orphaned feature flags from undefined features
-- **Clean database**: No stale or undefined feature data accumulates
 
 ## Usage
 
@@ -58,7 +52,7 @@ Feature::define('my-feature', function (mixed $scope) {
 });
 ```
 
-Since the package uses the `defined-database` driver, manually defined features will be stored and retrieved from the database only when explicitly defined.
+Since the package uses the `defined-database` driver, features will show as active only when explicitly defined.
 
 ### Resetting Feature Defaults
 
