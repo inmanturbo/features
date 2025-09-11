@@ -1,6 +1,7 @@
 # Features Package
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/inmanturbo/features.svg?style=flat-square)](https://packagist.org/packages/inmanturbo/features)
+[![Tests](https://img.shields.io/github/actions/workflow/status/inmanturbo/features/tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/inmanturbo/features/actions/workflows/tests.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/inmanturbo/features.svg?style=flat-square)](https://packagist.org/packages/inmanturbo/features)
 [![License](https://img.shields.io/packagist/l/inmanturbo/features.svg?style=flat-square)](https://packagist.org/packages/inmanturbo/features)
 

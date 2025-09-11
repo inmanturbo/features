@@ -35,5 +35,11 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
+    },
+    "scripts": {
+        "test": "pest",
+        "test-coverage": "pest --coverage --min=80",
+        "format": "pint",
+        "format-test": "pint --test"
     }
 }

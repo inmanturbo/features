@@ -29,7 +29,7 @@ function defineEnvironment($app)
 
     // Force registration of commands for testing
     $app->resolving('Illuminate\Contracts\Console\Kernel', function ($console) {
-        $console->registerCommand(new \Inmanturbo\Features\Commands\FeatureResetCommand());
+        $console->registerCommand(new \Inmanturbo\Features\Commands\FeatureResetCommand);
     });
 }
 

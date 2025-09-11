@@ -15,7 +15,7 @@ beforeEach(function () {
 
     // Manually register the command
     $this->app['Illuminate\Contracts\Console\Kernel']->registerCommand(
-        new FeatureResetCommand()
+        new FeatureResetCommand
     );
 
     // Insert test data
@@ -30,7 +30,7 @@ beforeEach(function () {
 it('can reset all when no data exists', function () {
     // Clear all test data first
     DB::table('features')->delete();
-    
+
     // Should work without prompting when no data exists
     $this->artisan('feature:reset', [])
         ->expectsOutput('Successfully reset all features for all scopes to default values.')
@@ -42,18 +42,18 @@ it('can reset all when no data exists', function () {
 it('can reset using FeatureRegistry directly', function () {
     // Test the underlying FeatureRegistry functionality that the command uses
     expect(DB::table('features')->count())->toBe(4);
-    
+
     // Test resetting all features for a specific scope
     \Inmanturbo\Features\FeatureRegistry::resetDefaults('user:1', null);
     expect(DB::table('features')->where('scope', 'user:1')->count())->toBe(0);
     expect(DB::table('features')->count())->toBe(2);
-    
+
     // Reset the test data
     DB::table('features')->insert([
         ['name' => 'test-feature-1', 'scope' => 'user:1', 'value' => json_encode(true), 'created_at' => now()],
         ['name' => 'test-feature-2', 'scope' => 'user:1', 'value' => json_encode('premium'), 'created_at' => now()],
     ]);
-    
+
     // Test resetting a specific feature for all scopes
     \Inmanturbo\Features\FeatureRegistry::resetDefaults(null, 'test-feature-1');
     expect(DB::table('features')->where('name', 'test-feature-1')->count())->toBe(0);
@@ -63,7 +63,7 @@ it('can reset using FeatureRegistry directly', function () {
 it('tests command with explicit feature and scope options', function () {
     // This tests the command functionality that definitely works
     expect(DB::table('features')->count())->toBe(4);
-    
+
     // Test with both options provided - this avoids all prompting
     $this->artisan('feature:reset', ['--scope' => 'user:2', '--feature' => 'test-feature-1'])
         ->expectsOutput("Successfully reset feature 'test-feature-1' for scope 'user:2' to default values.")
@@ -111,7 +111,7 @@ it('handles non-existent scope gracefully', function () {
 });
 
 it('handles non-existent feature gracefully', function () {
-    // Use both options to avoid prompting  
+    // Use both options to avoid prompting
     $this->artisan('feature:reset', ['--scope' => 'any-scope', '--feature' => 'non-existent'])
         ->expectsOutput("Successfully reset feature 'non-existent' for scope 'any-scope' to default values.")
         ->assertExitCode(0);
