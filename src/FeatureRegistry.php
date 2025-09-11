@@ -2,13 +2,11 @@
 
 namespace Inmanturbo\Features;
 
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Laravel\Pennant\Feature;
 
 class FeatureRegistry
 {
-
     public static function resetDefaults(mixed $scope = null, ?string $name = null)
     {
         $query = DB::connection(config('pennant.stores.database.connection'))

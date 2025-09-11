@@ -21,9 +21,9 @@ class DefinedOnlyDatabaseDriver extends DatabaseDriver
         }, ARRAY_FILTER_USE_KEY);
 
         $results = parent::getAll($filteredFeatures);
-        
+
         foreach ($features as $feature => $scopes) {
-            if (!array_key_exists($feature, $definedFeatures)) {
+            if (! array_key_exists($feature, $definedFeatures)) {
                 $results[$feature] = array_fill(0, count($scopes), false);
             }
         }
@@ -39,7 +39,7 @@ class DefinedOnlyDatabaseDriver extends DatabaseDriver
      */
     public function get($feature, $scope): mixed
     {
-        if (!in_array($feature, $this->defined())) {
+        if (! in_array($feature, $this->defined())) {
             return false;
         }
 
@@ -55,7 +55,7 @@ class DefinedOnlyDatabaseDriver extends DatabaseDriver
      */
     protected function retrieve($feature, $scope)
     {
-        if (!in_array($feature, $this->defined())) {
+        if (! in_array($feature, $this->defined())) {
             return null;
         }
 

@@ -18,35 +18,41 @@ The service provider will be automatically registered thanks to Laravel's packag
 
 ## Configuration
 
-Publish the configuration file:
+Publish the configuration files:
 
 ```bash
+# Publish the features configuration
 php artisan vendor:publish --tag=features-config
+
+# Publish the Pennant configuration (optional, but recommended)
+php artisan vendor:publish --tag=pennant-config
 ```
 
-This will create a `config/features.php` file where you can configure your features.
+This will create:
+- `config/features.php` - Configure your features
+- `config/pennant.php` - Pennant configuration with `defined-database` driver
 
-### Pennant Configuration
+### Defined-Database Driver
 
-This package is designed to work with [Laravel Pennant's](https://github.com/laravel/pennant) default driver set to `'array'`. This allows features to be defined as stateless defaults that can then be overridden on a per-scope basis using the database driver.
+This package uses a custom `defined-database` driver that only stores and retrieves features that have been explicitly defined. This prevents undefined features from being stored in the database and ensures better data integrity.
 
-In your `config/pennant.php`, set the default driver to `'array'`:
+The published Pennant config sets this as the default driver:
 
 ```php
-'default' => env('PENNANT_DRIVER', 'array'),
+'default' => env('PENNANT_DRIVER', 'defined-database'),
 ```
 
-This setup enables:
+Benefits of the `defined-database` driver:
 
-- **Stateless defaults**: Features defined in the array driver serve as fallback values
-- **Database overrides**: Specific scopes (users, teams, etc.) can have custom values stored in the database
-- **Flexible management**: Use `resetDefaults()` to remove database overrides and fall back to array defaults
+- **Defined features only**: Only explicitly defined features are stored in the database
+- **Data integrity**: Prevents orphaned feature flags from undefined features
+- **Clean database**: No stale or undefined feature data accumulates
 
 ## Usage
 
 ### Registering Features
 
-Features are automatically registered from your `config/features.php` configuration. The package reads the `enabled` array and registers each feature using the array driver.
+Features are automatically registered from your `config/features.php` configuration. The package reads the `enabled` array and registers each feature using the `defined-database` driver.
 
 #### Using the Configuration
 
@@ -71,22 +77,17 @@ return [
 
 #### Manual Registration
 
-You can also manually register features using the same pattern as the service provider:
+You can also manually register features using Laravel Pennant's standard methods:
 
 ```php
 use Laravel\Pennant\Feature;
-use Inmanturbo\Features\FeatureRegistry;
 
-Feature::driver('array')->define('my-feature', function (mixed $scope) {
-    return FeatureRegistry::resolve($scope, 'my-feature', 'default-value');
+Feature::define('my-feature', function (mixed $scope) {
+    return 'default-value';
 });
 ```
 
-The `resolve` method handles:
-
-- Checking for database overrides first
-- Falling back to the provided default value
-- Supporting both simple values and closure resolvers
+Since the package uses the `defined-database` driver, manually defined features will be stored and retrieved from the database only when explicitly defined.
 
 ### Resetting Feature Defaults
 
