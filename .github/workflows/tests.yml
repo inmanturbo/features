@@ -47,7 +47,7 @@ jobs:
       run: composer show -D
 
     - name: Execute tests
-      run: vendor/bin/pest
+      run: vendor/bin/pest --no-coverage
 
     - name: Check code style
       run: vendor/bin/pint --test
