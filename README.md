@@ -21,15 +21,12 @@ The service provider will be automatically registered thanks to Laravel's packag
 Publish the configuration files:
 
 ```bash
-# Publish the features configuration
-php artisan vendor:publish --tag=features-config
 
 # Publish the Pennant configuration (optional, but recommended)
 php artisan vendor:publish --tag=pennant-config
 ```
 
 This will create:
-- `config/features.php` - Configure your features
 - `config/pennant.php` - Pennant configuration with `defined-database` driver
 
 ### Defined-Database Driver
@@ -52,32 +49,6 @@ Benefits of the `defined-database` driver:
 
 ### Registering Features
 
-Features are automatically registered from your `config/features.php` configuration. The package reads the `enabled` array and registers each feature using the `defined-database` driver.
-
-#### Using the Configuration
-
-Define your features in the `enabled` array:
-
-```php
-// config/features.php
-return [
-    'enabled' => [
-        'new-dashboard' => true,
-        'beta-feature' => env('BETA_FEATURES', false),
-        'premium-widgets' => 'premium',
-    ],
-
-    'resolvers' => [
-        'premium-widgets' => function (mixed $scope) {
-            return $scope?->subscription?->isPremium() ? 'premium' : 'basic';
-        },
-    ],
-];
-```
-
-#### Manual Registration
-
-You can also manually register features using Laravel Pennant's standard methods:
 
 ```php
 use Laravel\Pennant\Feature;
