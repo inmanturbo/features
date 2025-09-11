@@ -22,6 +22,22 @@ php artisan vendor:publish --tag=features-config
 
 This will create a `config/features.php` file where you can configure your features.
 
+### Pennant Configuration
+
+This package is designed to work with Laravel Pennant's default driver set to `'array'`. This allows features to be defined as stateless defaults that can then be overridden on a per-scope basis using the database driver.
+
+In your `config/pennant.php`, set the default driver to `'array'`:
+
+```php
+'default' => env('PENNANT_DRIVER', 'array'),
+```
+
+This setup enables:
+
+- **Stateless defaults**: Features defined in the array driver serve as fallback values
+- **Database overrides**: Specific scopes (users, teams, etc.) can have custom values stored in the database
+- **Flexible management**: Use `resetDefaults()` to remove database overrides and fall back to array defaults
+
 ## Usage
 
 ### Resetting Feature Defaults
