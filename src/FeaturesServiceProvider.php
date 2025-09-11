@@ -12,7 +12,7 @@ class FeaturesServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/../config/pennant.php' => config_path('pennant.php'),
-        ], 'pennant-config');
+        ], 'pennant-config-defined');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
