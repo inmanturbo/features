@@ -3,8 +3,18 @@ name: Tests
 on:
   push:
     branches: [ main, develop ]
+    paths:
+      - '**.php'
+      - 'composer.json'
+      - 'composer.lock'
+      - '.github/workflows/tests.yml'
   pull_request:
     branches: [ main ]
+    paths:
+      - '**.php'
+      - 'composer.json'
+      - 'composer.lock'
+      - '.github/workflows/tests.yml'
 
 jobs:
   test:
