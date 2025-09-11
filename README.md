@@ -56,6 +56,60 @@ Since the package uses the `defined-database` driver, features will show as acti
 
 ### Resetting Feature Defaults
 
+#### Using the Artisan Command
+
+The package provides a convenient `feature:reset` Artisan command to reset features interactively or via command line options.
+
+##### Interactive Mode
+
+Run the command without options for an interactive experience:
+
+```bash
+php artisan feature:reset
+```
+
+When features exist in your database, the command will:
+1. **Auto-discover** available scopes and features from your database
+2. **Present interactive menus** to select:
+   - A specific scope or "[All Scopes]" 
+   - A specific feature or "[All Features]"
+3. **Safely reset** only the selected combination
+
+If no features exist in the database, it will immediately reset (no-op) without prompting.
+
+##### Command Line Options
+
+Skip the interactive prompts by providing explicit options:
+
+```bash
+# Reset all features for all scopes (when database is empty)
+php artisan feature:reset
+
+# Reset all features for a specific scope
+php artisan feature:reset --scope="user:1"
+
+# Reset a specific feature for all scopes  
+php artisan feature:reset --feature="new-dashboard"
+
+# Reset a specific feature for a specific scope
+php artisan feature:reset --scope="user:1" --feature="new-dashboard"
+
+# Reset non-existent features (safe no-op)
+php artisan feature:reset --scope="nonexistent" --feature="missing"
+```
+
+##### Use Cases
+
+The `feature:reset` command is useful for:
+
+- **Development**: Quickly reset feature flags during testing
+- **Debugging**: Remove problematic feature overrides to fall back to defaults  
+- **Data cleanup**: Clear old or unused feature flag data
+- **User management**: Reset features for specific users or teams
+- **Feature rollback**: Revert features to their default state after experiments
+
+#### Using the FeatureRegistry Class
+
 The `FeatureRegistry` class provides a `resetDefaults` method to remove feature flags from the database, allowing them to fall back to their default values:
 
 ```php

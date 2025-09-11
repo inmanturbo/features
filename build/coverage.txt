@@ -1,0 +1,14 @@
+
+
+[1;37;40mCode Coverage Report:     [0m
+[1;37;40m  2025-09-11 16:02:08     [0m
+[1;37;40m                          [0m
+[1;37;40m Summary:                 [0m
+[37;41m  Classes: 25.00% (1/4)   [0m
+[37;41m  Methods: 10.00% (1/10)  [0m
+[37;41m  Lines:   38.83% (40/103)[0m
+
+Inmanturbo\Features\Commands\FeatureResetCommand
+  [37;41mMethods:   0.00% ( 0/ 3)[0m   [30;43mLines:  58.93% ( 33/ 56)[0m
+Inmanturbo\Features\FeatureRegistry
+  [30;42mMethods: 100.00% ( 1/ 1)[0m   [30;42mLines: 100.00% (  7/  7)[0m
