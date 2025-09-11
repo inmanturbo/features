@@ -40,6 +40,50 @@ This setup enables:
 
 ## Usage
 
+### Registering Features
+
+Features are automatically registered from your `config/features.php` configuration. The package reads the `enabled` array and registers each feature using the array driver.
+
+#### Using the Configuration
+
+Define your features in the `enabled` array:
+
+```php
+// config/features.php
+return [
+    'enabled' => [
+        'new-dashboard' => true,
+        'beta-feature' => env('BETA_FEATURES', false),
+        'premium-widgets' => 'premium',
+    ],
+
+    'resolvers' => [
+        'premium-widgets' => function (mixed $scope) {
+            return $scope?->subscription?->isPremium() ? 'premium' : 'basic';
+        },
+    ],
+];
+```
+
+#### Manual Registration
+
+You can also manually register features using the same pattern as the service provider:
+
+```php
+use Laravel\Pennant\Feature;
+use Inmanturbo\Features\FeatureRegistry;
+
+Feature::driver('array')->define('my-feature', function (mixed $scope) {
+    return FeatureRegistry::resolve($scope, 'my-feature', 'default-value');
+});
+```
+
+The `resolve` method handles:
+
+- Checking for database overrides first
+- Falling back to the provided default value
+- Supporting both simple values and closure resolvers
+
 ### Resetting Feature Defaults
 
 The `FeatureRegistry` class provides a `resetDefaults` method to remove feature flags from the database, allowing them to fall back to their default values:
@@ -51,29 +95,20 @@ use Inmanturbo\Features\FeatureRegistry;
 FeatureRegistry::resetDefaults();
 
 // Reset all features for a specific scope (user, team, etc.)
-FeatureRegistry::resetDefaults($user);
+FeatureRegistry::resetDefaults(scope: $user);
 
 // Reset a specific feature for all scopes
-FeatureRegistry::resetDefaults(null, 'feature-name');
+FeatureRegistry::resetDefaults(name: 'feature-name');
 
 // Reset a specific feature for a specific scope
-FeatureRegistry::resetDefaults($user, 'feature-name');
+FeatureRegistry::resetDefaults(scope: $user, name: 'feature-name');
 ```
 
 This is useful when you want to:
+
 - Remove overridden feature values and revert to defaults
 - Clean up test data
 - Reset features during development
-
-### Feature Retrieval
-
-The package also provides a `retrieve` method to get feature values:
-
-```php
-use Inmanturbo\Features\FeatureRegistry;
-
-$value = FeatureRegistry::retrieve($user, 'feature-name');
-```
 
 ## License
 
