@@ -24,7 +24,7 @@ Publish the configuration files:
 ```bash
 
 # Publish the Pennant configuration (optional, but recommended)
-php artisan vendor:publish --tag=pennant-config
+php artisan vendor:publish --tag=pennant-config-defined
 ```
 
 This will create:
