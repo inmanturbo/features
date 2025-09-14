@@ -86,9 +86,9 @@ class DefinedOnlyDatabaseDriver extends DatabaseDriver
         $query = $this->newQuery()->where('scope', Feature::serializeScope($scope));
 
         if ($features) {
-           $query->whereIn('name', $features);
+            $query->whereIn('name', $features);
         }
-        
+
         $query->delete();
     }
 }
