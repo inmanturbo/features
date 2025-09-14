@@ -4,6 +4,7 @@ namespace Inmanturbo\Features;
 
 use Illuminate\Support\ServiceProvider;
 use Inmanturbo\Features\Commands\FeatureResetCommand;
+use Inmanturbo\Features\Commands\FeatureInstallCommand;
 use Laravel\Pennant\FeatureManager;
 
 class FeaturesServiceProvider extends ServiceProvider
@@ -17,6 +18,7 @@ class FeaturesServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 FeatureResetCommand::class,
+                FeatureInstallCommand::class,
             ]);
         }
 
