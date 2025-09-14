@@ -19,13 +19,19 @@ The service provider will be automatically registered thanks to Laravel's packag
 
 ## Configuration
 
-Publish the configuration files:
+Install and publish the configuration files:
 
 ```bash
+# Install Laravel Pennant and publish configuration
+php artisan feature:install
 
-# Publish the Pennant configuration (optional, but recommended)
-php artisan vendor:publish --tag=pennant-config-defined
+# Or force installation (useful for production environments)
+php artisan feature:install --force
 ```
+
+This command will:
+- Publish the Laravel Pennant service provider
+- Publish the Pennant configuration with the `defined-database` driver
 
 This will create:
 - `config/pennant.php` - Pennant configuration with `defined-database` driver
