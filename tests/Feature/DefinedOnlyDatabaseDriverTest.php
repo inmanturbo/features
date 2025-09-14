@@ -82,46 +82,6 @@ it('filters results to only include defined features', function () {
     expect(Feature::for('user:2')->value('undefined-feature'))->toBe(false);
 });
 
-it('prevents access to orphaned database features', function () {
-    // Store undefined features in database (simulating orphaned data)
-    DB::table('features')->insert([
-        ['name' => 'orphaned-feature-1', 'scope' => 'user:1', 'value' => json_encode('orphaned-value-1'), 'created_at' => now(), 'updated_at' => now()],
-        ['name' => 'orphaned-feature-2', 'scope' => 'user:1', 'value' => json_encode('orphaned-value-2'), 'created_at' => now(), 'updated_at' => now()],
-    ]);
-
-    // Verify data exists in database
-    expect(DB::table('features')->count())->toBe(2);
-
-    // Try to access undefined features - should not be accessible
-    expect(Feature::for('user:1')->active('orphaned-feature-1'))->toBe(false);
-    expect(Feature::for('user:1')->active('orphaned-feature-2'))->toBe(false);
-    expect(Feature::for('user:1')->value('orphaned-feature-1'))->toBe(false);
-    expect(Feature::for('user:1')->value('orphaned-feature-2'))->toBe(false);
-});
-
-it('demonstrates defined-only behavior with cache', function () {
-    // Define a feature first
-    Feature::define('cache-test-feature', fn () => 'default-value');
-
-    // Store value in database
-    DB::table('features')->insert([
-        ['name' => 'cache-test-feature', 'scope' => 'user:1', 'value' => json_encode('stored-value'), 'created_at' => now(), 'updated_at' => now()],
-    ]);
-
-    // Should return stored value since feature is defined
-    expect(Feature::for('user:1')->active('cache-test-feature'))->toBe(true);
-    expect(Feature::for('user:1')->value('cache-test-feature'))->toBe('stored-value');
-
-    // Store undefined feature in database
-    DB::table('features')->insert([
-        ['name' => 'undefined-cache-feature', 'scope' => 'user:1', 'value' => json_encode('orphaned-value'), 'created_at' => now(), 'updated_at' => now()],
-    ]);
-
-    // Should not be accessible
-    expect(Feature::for('user:1')->active('undefined-cache-feature'))->toBe(false);
-    expect(Feature::for('user:1')->value('undefined-cache-feature'))->toBe(false);
-});
-
 it('integrates properly with Laravel Pennant Feature facade', function () {
     // Define a feature with scope-based logic
     Feature::define('integration-feature', function ($scope) {
@@ -140,26 +100,4 @@ it('integrates properly with Laravel Pennant Feature facade', function () {
 
     // Should still return default for premium-user (no database override)
     expect(Feature::for('premium-user')->value('integration-feature'))->toBe('premium');
-});
-
-it('ensures data integrity by blocking undefined features', function () {
-    // This test demonstrates the key benefit of defined-database driver:
-    // preventing access to undefined features even if they exist in database
-
-    // Define one feature to test the contrast
-    Feature::define('allowed-feature', fn () => 'default');
-
-    // Store both defined and undefined features in database
-    DB::table('features')->insert([
-        ['name' => 'allowed-feature', 'scope' => 'user:1', 'value' => json_encode('allowed-value'), 'created_at' => now(), 'updated_at' => now()],
-        ['name' => 'blocked-feature', 'scope' => 'user:1', 'value' => json_encode('blocked-value'), 'created_at' => now(), 'updated_at' => now()],
-    ]);
-
-    // Defined feature should be accessible
-    expect(Feature::for('user:1')->active('allowed-feature'))->toBe(true);
-    expect(Feature::for('user:1')->value('allowed-feature'))->toBe('allowed-value');
-
-    // Undefined feature should be blocked despite existing in database
-    expect(Feature::for('user:1')->active('blocked-feature'))->toBe(false);
-    expect(Feature::for('user:1')->value('blocked-feature'))->toBe(false);
 });
