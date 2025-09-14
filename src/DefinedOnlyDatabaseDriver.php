@@ -20,7 +20,15 @@ class DefinedOnlyDatabaseDriver extends DatabaseDriver
             return array_key_exists($feature, $definedFeatures);
         }, ARRAY_FILTER_USE_KEY);
 
-        return parent::getAll($filteredFeatures);
+        $results = parent::getAll($filteredFeatures);
+
+        foreach ($features as $feature => $scopes) {
+            if (! array_key_exists($feature, $definedFeatures)) {
+                $results[$feature] = array_fill(0, count($scopes), false);
+            }
+        }
+
+        return $results;
     }
 
     /**
