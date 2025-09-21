@@ -19,23 +19,6 @@ The service provider will be automatically registered thanks to Laravel's packag
 
 ## Configuration
 
-Install and publish the configuration files:
-
-```bash
-# Install Laravel Pennant and publish configuration
-php artisan feature:install
-
-# Or force installation (useful for production environments)
-php artisan feature:install --force
-```
-
-This command will:
-- Publish the Laravel Pennant service provider
-- Publish the Pennant configuration with the `defined-database` driver
-
-This will create:
-- `config/pennant.php` - Pennant configuration with `defined-database` driver
-
 ### Defined-Database Driver
 
 This package uses a custom `defined-database` driver that only retrieves features that have been explicitly defined. This allows removing features without losing any data, fetures can be redefined later with their data still intact.
@@ -48,18 +31,18 @@ The published Pennant config sets this as the default driver:
 
 ## Usage
 
-### Registering Features
-
+### Before Hooks
 
 ```php
 use Laravel\Pennant\Feature;
 
-Feature::define('my-feature', function (mixed $scope) {
-    return 'default-value';
+Feature::before('new-api', function (User $user) {
+  if (Config::get('features.new-api.disabled')) {
+      return $user->isInternalTeamMember();
+  }
 });
-```
 
-Since the package uses the `defined-database` driver, features will show as active only when explicitly defined.
+```
 
 ### Resetting Feature Defaults
 
