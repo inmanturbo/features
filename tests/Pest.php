@@ -26,6 +26,10 @@ function defineEnvironment($app)
         'driver' => 'defined-database',
         'connection' => null,
     ]);
+    $app['config']->set('pennant.stores.database', [
+        'driver' => 'database',
+        'connection' => null,
+    ]);
 
     // Force registration of commands for testing
     $app->resolving('Illuminate\Contracts\Console\Kernel', function ($console) {
