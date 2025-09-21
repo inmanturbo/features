@@ -2,9 +2,9 @@
 
 namespace Inmanturbo\Features;
 
-use Laravel\Pennant\FeatureManager as PennantFeatureManager;
 use Illuminate\Support\Collection;
 use InvalidArgumentException;
+use Laravel\Pennant\FeatureManager as PennantFeatureManager;
 
 class FeatureManager extends PennantFeatureManager
 {
